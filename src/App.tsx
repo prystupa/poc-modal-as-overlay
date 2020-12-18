@@ -1,26 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {range} from 'lodash';
+import TestOverlay from "./TestOverlay";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const items = range(0, 1000);
+
+    return (
+        <ul>
+            {items.map((index) => (
+                <li key={index}>
+                    <span>{index}</span>
+                    <TestOverlay index={index} onSave={() => console.log(`saved ${index}`)}/>
+                </li>
+            ))}
+        </ul>
+    );
 }
 
 export default App;
