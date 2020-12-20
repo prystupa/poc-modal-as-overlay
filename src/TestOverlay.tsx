@@ -1,24 +1,19 @@
 import {OverlayTrigger, Popover} from "react-bootstrap";
-import TestDialog from "./TestDialog";
-import {BsPencilSquare as EditIcon} from "react-icons/bs";
 import React, {useCallback, useState} from "react";
 
 type Props = {
-    index: number;
-    onSave: () => void;
+    content: ({close}: {close: () => void}) => JSX.Element,
+    children: React.ReactElement,
 }
 
-const TestOverlay = ({index, onSave}: Props) => {
+const TestOverlay = ({content, children}: Props) => {
     const [show, setShow] = useState(false);
     const onToggle = useCallback((value) => {
         setShow(value);
     }, []);
 
-    const onDialogSave = useCallback(() => {
-        onSave();
-        setShow(false);
-    }, [onSave]);
-    const onCancel = useCallback(() => setShow(false), []);
+    const close = useCallback(() => setShow(false), []);
+    const Content = content;
 
     return (
         <OverlayTrigger show={show}
@@ -29,11 +24,11 @@ const TestOverlay = ({index, onSave}: Props) => {
                         overlay={
                             <Popover id="test-popover-index">
                                 <Popover.Content>
-                                    <TestDialog index={index} onCancel={onCancel} onSave={onDialogSave}/>
+                                    <Content close={close} />
                                 </Popover.Content>
                             </Popover>
                         }>
-            <EditIcon/>
+            {children}
         </OverlayTrigger>
     );
 };
